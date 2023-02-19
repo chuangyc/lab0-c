@@ -14,16 +14,13 @@
 /* Create an empty queue */
 struct list_head *q_new()
 {
-    // struct queue_contex_t *head = malloc(2 * sizeof(struct list_head) + 2 *
-    // sizeof(int)); queue_contex_t *head = malloc(sizeof(queue_contex_t));
-    // queue_contex_t *head = {malloc(sizeof(struct list_head)),
-    // malloc(sizeof(struct list_head)), malloc(sizeof(int)),
-    // malloc(sizeof(int))};
-    struct list_head *head = malloc(sizeof(struct list_head));
-    head->prev = head;
-    head->next = head;
+    struct list_head *head = malloc(sizeof(*head));
+    if (!head) {  // return NULL for allocation failed
+        free(head);
+        return NULL;
+    }
+    INIT_LIST_HEAD(head);
     return head;
-    // return NULL;
 }
 /* Free all storage used by queue */
 void q_free(struct list_head *l) {}
