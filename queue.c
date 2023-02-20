@@ -28,12 +28,35 @@ void q_free(struct list_head *l) {}
 /* Insert an element at head of queue */
 bool q_insert_head(struct list_head *head, char *s)
 {
+    element_t *el = malloc(sizeof(*el));
+    if (!head || !el) {
+        free(el);
+        return false;
+    }
+
+    INIT_LIST_HEAD(&(el->list));
+    el->value = malloc(sizeof(s));  //  value needs to be explicitly allocated
+
+    memcpy(el->value, s, strlen(s) + 1);
+    list_add(&el->list, head);
+
     return true;
 }
-
 /* Insert an element at tail of queue */
 bool q_insert_tail(struct list_head *head, char *s)
 {
+    element_t *el = malloc(sizeof(*el));
+
+    if (!head || !el) {
+        free(el);
+        return false;
+    }
+
+    INIT_LIST_HEAD(&(el->list));
+    el->value = malloc(sizeof(s));  //  value needs to be explicitly allocated
+
+    memcpy(el->value, s, strlen(s) + 1);
+    list_add_tail(&el->list, head);
     return true;
 }
 
@@ -95,15 +118,16 @@ void q_reverseK(struct list_head *head, int k)
 /* Sort elements of queue in ascending order */
 void q_sort(struct list_head *head) {}
 
-/* Remove every node which has a node with a strictly greater value anywhere to
- * the right side of it */
+/* Remove every node which has a node with a strictly greater value anywhere
+ * to the right side of it */
 int q_descend(struct list_head *head)
 {
     // https://leetcode.com/problems/remove-nodes-from-linked-list/
     return 0;
 }
 
-/* Merge all the queues into one sorted queue, which is in ascending order */
+/* Merge all the queues into one sorted queue, which is in ascending order
+ */
 int q_merge(struct list_head *head)
 {
     // https://leetcode.com/problems/merge-k-sorted-lists/
